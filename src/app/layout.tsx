@@ -1,11 +1,13 @@
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 
 import StyledComponentsRegistry from "@/lib/registry";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
-const inter = Inter({ subsets: ["latin"] });
+import Body from "@/components/body";
+import "./globals.css";
+
+const inter = Inter({ weight: ["100", "400", "500"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Record I/O Tool",
@@ -19,13 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant-TW">
-      <body className={inter.className}>
+      <Body className={inter.className}>
         <StyledComponentsRegistry>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             {children}
           </AppRouterCacheProvider>
         </StyledComponentsRegistry>
-      </body>
+      </Body>
     </html>
   );
 }
