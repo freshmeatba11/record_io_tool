@@ -21,13 +21,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant-TW">
-      <Body className={inter.className}>
-        <StyledComponentsRegistry>
-          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            {children}
-          </AppRouterCacheProvider>
-        </StyledComponentsRegistry>
-      </Body>
+      <StyledComponentsRegistry>
+        <Body className={inter.className}>
+          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+        </Body>
+      </StyledComponentsRegistry>
     </html>
   );
 }

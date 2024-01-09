@@ -6,8 +6,19 @@
     --white-01: #ffffff;
     --brown-01: #e9cebb;
     --brown-02: #8c4b1c;
+    --brown-03: #8c4b1c66;
+    --gray-01: #c9c6ac;
 
     --front-title-color: var(--brown-02, #8c4b1c);
+
+    --input-background-color: var(--brown-01, #e9cebb);
+    --input-text-color: var(--brown-03, #8c4b1c66);
+    --input-border-color: var(--brown-01, #e9cebb);
+    --input-border-hover-color: var(--gray-01, #c9c6ac);
+
+    --button-color: var(--brown-02, #8c4b1c);
+    --button-hover-color: var(--brown-02, #8c4b1c);
+    --button-text-color: var(--white-01, #ffffff);
   }
 }
 
