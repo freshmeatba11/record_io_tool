@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import LoginButton from "../button/loginButton";
+import DateTimePicker from "../datePicker/dateTimePicker";
 import LoginInput from "./loginInput";
 
 const InputAreaWrapper = styled.div`
@@ -14,10 +15,10 @@ const InputAreaWrapper = styled.div`
   gap: 16px;
 `;
 
-const Perallel = styled.div`
-  display: flex;
-  gap: 13px;
-`;
+// const Perallel = styled.div`
+//   display: flex;
+//   gap: 13px;
+// `;
 
 const inputList = [
   {
@@ -37,20 +38,20 @@ type Props = {
 const LoginInputArea = ({ control, onSubmit, isValid }: Props) => {
   return (
     <InputAreaWrapper>
-      {inputList.slice(0, 2).map((item, index) => (
-        <LoginInput
-          key={index}
-          {...{
-            control,
-            required: true,
-            id: item.id,
-            label: item.label,
-          }}
-        />
-      ))}
-
-      <Perallel>
-        {inputList.slice(2).map((item, index) => (
+      {inputList.slice(0).map((item, index) => {
+        if (item.id === "checkInTime")
+          return (
+            <DateTimePicker
+              key={index}
+              {...{
+                control,
+                required: true,
+                id: item.id,
+                label: item.label,
+              }}
+            />
+          );
+        return (
           <LoginInput
             key={index}
             {...{
@@ -60,8 +61,35 @@ const LoginInputArea = ({ control, onSubmit, isValid }: Props) => {
               label: item.label,
             }}
           />
-        ))}
-      </Perallel>
+        );
+      })}
+
+      {/* <Perallel>
+        {inputList.slice(2).map((item, index) => {
+          if (item.id === "checkInTime")
+            return (
+              <DateTimePicker
+                {...{
+                  control,
+                  required: true,
+                  id: item.id,
+                  label: item.label,
+                }}
+              />
+            );
+          return (
+            <LoginInput
+              key={index}
+              {...{
+                control,
+                required: true,
+                id: item.id,
+                label: item.label,
+              }}
+            />
+          );
+        })}
+      </Perallel> */}
       <LoginButton {...{ onClick: onSubmit, disabled: !isValid }} />
     </InputAreaWrapper>
   );

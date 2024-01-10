@@ -2,6 +2,7 @@
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/zh-tw";
 
 export default function DatePickersProvider({
   children,
@@ -9,7 +10,7 @@ export default function DatePickersProvider({
   children: React.ReactNode;
 }) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
       {children}
     </LocalizationProvider>
   );

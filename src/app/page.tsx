@@ -1,6 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 import MedWorkerSvg from "@/assets/images/medical_workers.svg";
 import FrontTitle from "@/components/frontTitle";
@@ -39,10 +40,10 @@ export default function Home() {
     defaultValues: {
       hospitalName: "",
       patientName: "",
-      checkInTime: "",
+      checkInTime: dayjs(),
       bedNumber: "",
     },
-    mode: "onBlur",
+    mode: "onTouched",
   });
 
   const onSubmit = handleSubmit((data) => {
