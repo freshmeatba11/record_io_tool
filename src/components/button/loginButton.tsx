@@ -19,13 +19,19 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-type Props = {};
-const LoginButton = (props: Props) => {
+type Props = {
+  onClick: any;
+  disabled?: boolean;
+};
+const LoginButton = ({ onClick, disabled = false }: Props) => {
   return (
     <ButtonWrapper>
       <Button
-        variant="contained"
-        {...{ disabled: false, onClick: () => alert("hi") }}
+        {...{
+          variant: "contained",
+          disabled,
+          onClick,
+        }}
       >
         <ArrowSvg />
       </Button>

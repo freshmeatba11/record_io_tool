@@ -1,4 +1,5 @@
 import TextField, { TextFieldVariants } from "@mui/material/TextField";
+import { Controller } from "react-hook-form";
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
@@ -41,22 +42,43 @@ const InputWrapper = styled.div`
   }
 `;
 type Props = {
-  required: boolean;
+  control: any;
   id: string;
   label: string;
-  variant: TextFieldVariants;
+  defaultValue?: string;
+  required?: boolean;
+  variant?: TextFieldVariants;
 };
-const LoginInput = ({ required, id, label, variant }: Props) => {
+const LoginInput = ({
+  control,
+  id,
+  label,
+  defaultValue = "",
+  required = false,
+  variant = "outlined",
+}: Props) => {
   return (
     <InputWrapper>
-      <TextField
+      <Controller
         {...{
-          required: required,
-          id: id,
-          label: label,
-          variant: variant,
-          //   value: value,
-          //   onChange: onchange,
+          name: id,
+          control,
+          defaultValue,
+          rules: { required: { value: true, message: "必填" } },
+          render: ({ field, fieldState: { error } }) => (
+            <TextField
+              {...{
+                required,
+                id,
+                label,
+                variant,
+                error: !!error,
+                helperText: error ? error.message : "",
+                autoComplete: "off",
+              }}
+              {...field}
+            />
+          ),
         }}
       />
     </InputWrapper>

@@ -19,45 +19,50 @@ const Perallel = styled.div`
   gap: 13px;
 `;
 
-type Props = {};
-const LoginInputArea = (props: Props) => {
+const inputList = [
+  {
+    id: "hospitalName",
+    label: "醫院名",
+  },
+  { id: "patientName", label: "病患姓名" },
+  { id: "checkInTime", label: "入院時間" },
+  { id: "bedNumber", label: "病床" },
+];
+
+type Props = {
+  control: any;
+  onSubmit: any;
+  isValid: boolean;
+};
+const LoginInputArea = ({ control, onSubmit, isValid }: Props) => {
   return (
     <InputAreaWrapper>
-      <LoginInput
-        {...{
-          required: true,
-          id: "hospitalName",
-          label: "醫院名",
-          variant: "outlined",
-        }}
-      />
-      <LoginInput
-        {...{
-          required: true,
-          id: "patientName",
-          label: "病患姓名",
-          variant: "outlined",
-        }}
-      />
+      {inputList.slice(0, 2).map((item, index) => (
+        <LoginInput
+          key={index}
+          {...{
+            control,
+            required: true,
+            id: item.id,
+            label: item.label,
+          }}
+        />
+      ))}
+
       <Perallel>
-        <LoginInput
-          {...{
-            required: true,
-            id: "checkInTime",
-            label: "入院時間",
-            variant: "outlined",
-          }}
-        />
-        <LoginInput
-          {...{
-            required: true,
-            id: "bedNumber",
-            label: "病床",
-            variant: "outlined",
-          }}
-        />
+        {inputList.slice(2).map((item, index) => (
+          <LoginInput
+            key={index}
+            {...{
+              control,
+              required: true,
+              id: item.id,
+              label: item.label,
+            }}
+          />
+        ))}
       </Perallel>
-      <LoginButton />
+      <LoginButton {...{ onClick: onSubmit, disabled: !isValid }} />
     </InputAreaWrapper>
   );
 };
