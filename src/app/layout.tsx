@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import StyledComponentsRegistry from "@/lib/registry";
+import DatePickersProvider from "@/lib/datePickers";
 
 import Body from "@/components/body";
 import "./globals.css";
@@ -23,7 +24,9 @@ export default function RootLayout({
     <html lang="zh-Hant-TW">
       <StyledComponentsRegistry>
         <Body className={inter.className}>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <AppRouterCacheProvider>
+            <DatePickersProvider>{children}</DatePickersProvider>
+          </AppRouterCacheProvider>
         </Body>
       </StyledComponentsRegistry>
     </html>
