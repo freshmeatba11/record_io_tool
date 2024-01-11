@@ -15,11 +15,6 @@ const InputAreaWrapper = styled.div`
   gap: 16px;
 `;
 
-// const Perallel = styled.div`
-//   display: flex;
-//   gap: 13px;
-// `;
-
 const inputList = [
   {
     id: "hospitalName",
@@ -34,8 +29,16 @@ type Props = {
   control: any;
   onSubmit: any;
   isValid: boolean;
+  handleClickBackToList: () => void;
+  hasOldFile: boolean;
 };
-const LoginInputArea = ({ control, onSubmit, isValid }: Props) => {
+const LoginInputArea = ({
+  control,
+  onSubmit,
+  isValid,
+  handleClickBackToList,
+  hasOldFile,
+}: Props) => {
   return (
     <InputAreaWrapper>
       {inputList.slice(0).map((item, index) => {
@@ -64,33 +67,18 @@ const LoginInputArea = ({ control, onSubmit, isValid }: Props) => {
         );
       })}
 
-      {/* <Perallel>
-        {inputList.slice(2).map((item, index) => {
-          if (item.id === "checkInTime")
-            return (
-              <DateTimePicker
-                {...{
-                  control,
-                  required: true,
-                  id: item.id,
-                  label: item.label,
-                }}
-              />
-            );
-          return (
-            <LoginInput
-              key={index}
-              {...{
-                control,
-                required: true,
-                id: item.id,
-                label: item.label,
-              }}
-            />
-          );
-        })}
-      </Perallel> */}
-      <LoginButton {...{ onClick: onSubmit, disabled: !isValid }} />
+      <LoginButton
+        {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}
+      />
+      {hasOldFile && (
+        <LoginButton
+          {...{
+            onClick: handleClickBackToList,
+            disabled: !hasOldFile,
+            variant: "oldFile",
+          }}
+        />
+      )}
     </InputAreaWrapper>
   );
 };

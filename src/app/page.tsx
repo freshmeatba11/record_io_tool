@@ -1,11 +1,13 @@
 "use client";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import dayjs from "dayjs";
 
 import MedWorkerSvg from "@/assets/images/medical_workers.svg";
 import FrontTitle from "@/components/frontTitle";
 import LoginInputArea from "@/components/input/loginInputArea";
+import OldFileList from "@/components/oldFileList";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -13,6 +15,7 @@ const Wrapper = styled.main`
   padding: 60px 0 0;
 
   position: relative;
+  overflow-y: scroll;
 `;
 const SvgWrapper = styled.div`
   margin: 0 auto;
@@ -32,9 +35,13 @@ const SvgWrapper = styled.div`
 `;
 
 export default function Home() {
+  const [oldFileArray, setOldFileArray] = useState<null | []>(null);
+  const [showArea, setShowArea] = useState<"" | "input" | "oldFile">("");
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid },
   } = useForm({
     defaultValues: {
@@ -56,14 +63,45 @@ export default function Home() {
 
     const newFile = { ...data, id: id, created: created };
     localStorage.setItem("file", JSON.stringify([...oldFileArray, newFile]));
+    reset({ checkInTime: dayjs() });
+    // todo 使用新建立的檔案id 跳轉到表格頁面
   });
+
+  const handleClickBackToList = () => {
+    setShowArea("oldFile");
+    reset({ checkInTime: dayjs() });
+  };
+
+  useEffect(() => {
+    const oldFile = localStorage.getItem("file");
+    const oldFileArray = oldFile ? JSON.parse(oldFile) : [];
+    setOldFileArray(oldFileArray);
+  }, [showArea]);
 
   return (
     <Wrapper>
       <FrontTitle title1="IO" title2="Recording" subTitle="輸出入量紀錄" />
 
-      <LoginInputArea {...{ control, onSubmit, isValid }} />
+      {oldFileArray && (
+        <>
+          {oldFileArray.length === 0 || showArea === "input" ? (
+            <LoginInputArea
+              {...{
+                control,
+                onSubmit,
+                isValid,
+                handleClickBackToList,
+                hasOldFile: !!oldFileArray.length,
+              }}
+            />
+          ) : null}
 
+          {(oldFileArray.length > 0 || showArea === "oldFile") &&
+          showArea !== "input" ? (
+            <OldFileList {...{ list: oldFileArray, setShowArea }} />
+          ) : null}
+        </>
+      )}
       <SvgWrapper>
         <MedWorkerSvg />
       </SvgWrapper>

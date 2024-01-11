@@ -22,19 +22,33 @@ const ButtonWrapper = styled.div`
 type Props = {
   onClick: any;
   disabled?: boolean;
+  variant?: "login" | "oldFile";
 };
-const LoginButton = ({ onClick, disabled = false }: Props) => {
+const LoginButton = ({ onClick, disabled = false, variant }: Props) => {
   return (
     <ButtonWrapper>
-      <Button
-        {...{
-          variant: "contained",
-          disabled,
-          onClick,
-        }}
-      >
-        <ArrowSvg />
-      </Button>
+      {variant === "login" && (
+        <Button
+          {...{
+            variant: "contained",
+            disabled,
+            onClick,
+          }}
+        >
+          <ArrowSvg />
+        </Button>
+      )}
+      {variant === "oldFile" && (
+        <Button
+          {...{
+            variant: "contained",
+            disabled,
+            onClick,
+          }}
+        >
+          回到列表
+        </Button>
+      )}
     </ButtonWrapper>
   );
 };
