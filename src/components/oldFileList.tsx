@@ -1,7 +1,8 @@
-import Avatar from "@mui/material/Avatar";
 import dayjs from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+
+import AvatarCard from "./card/avatarCard";
 
 const OldFileListWrapper = styled.div`
   margin: 20px auto 20px;
@@ -12,18 +13,8 @@ const OldFileListWrapper = styled.div`
   justify-content: space-around;
 
   padding: 8px;
-  background: #f5f5f5a6;
+  background: var(--old-file-list-background-color);
   border-radius: 10px;
-`;
-
-const AvatarCard = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px;
-`;
-const AvatarCardInfo = styled.div`
-  flex-grow: 1;
 `;
 
 type Props = {
@@ -39,29 +30,38 @@ type Props = {
 };
 
 const OldFileList = ({ list, setShowArea }: Props) => {
+  const handleClickUseOldFile = () => {
+    // todo 使用舊檔跳轉到表格頁面
+  };
   const handleClickAddNewFile = () => {
     setShowArea("input");
   };
-  // todo AvatarCard 抽出
+
   return (
     <OldFileListWrapper>
       {list.map((i, index: number) => {
         const date = dayjs(i.checkInTime).format("YYYY/MM/DD");
         const time = dayjs(i.checkInTime).format("HH:mm");
         return (
-          <AvatarCard key={index}>
-            <Avatar sx={{ width: 56, height: 56 }}>{i.patientName}</Avatar>
-            <AvatarCardInfo>
-              <p>{`${date} ${time}`}</p>
-              <p>{`${i.patientName} /`}</p>
-              <p>{`${i.hospitalName} • 床號: ${i.bedNumber}`}</p>
-            </AvatarCardInfo>
+          <AvatarCard
+            key={index}
+            {...{
+              onClick: handleClickUseOldFile,
+              text: i.patientName,
+            }}
+          >
+            <p>{`${date} ${time}`}</p>
+            <p>{`${i.patientName} /`}</p>
+            <p>{`${i.hospitalName} • 床號: ${i.bedNumber}`}</p>
           </AvatarCard>
         );
       })}
-
-      <AvatarCard onClick={handleClickAddNewFile}>
-        <Avatar sx={{ width: 56, height: 56 }}>+</Avatar>
+      <AvatarCard
+        {...{
+          onClick: handleClickAddNewFile,
+          text: "+",
+        }}
+      >
         <p>建立新檔</p>
       </AvatarCard>
     </OldFileListWrapper>

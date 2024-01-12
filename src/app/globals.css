@@ -4,6 +4,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --white-01: #ffffff;
+    --white-02: #f5f5f5a6;
     --brown-01: #e9cebb;
     --brown-02: #8c4b1c;
     --brown-03: #8c4b1c66;
@@ -19,6 +20,10 @@
     --button-color: var(--brown-02, #8c4b1c);
     --button-hover-color: var(--brown-02, #8c4b1c);
     --button-text-color: var(--white-01, #ffffff);
+
+    --old-file-list-background-color: var(--white-02, #f5f5f5a6);
+
+    --avatar-card-info-text-color: var(--brown-02, #8c4b1c);
   }
 }
 
