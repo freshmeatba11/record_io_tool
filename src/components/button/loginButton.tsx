@@ -1,5 +1,8 @@
 import Button from "@mui/material/Button";
 import styled from "styled-components";
+import CircularProgress from "@mui/material/CircularProgress";
+
+import { useIsLoading } from "@/stores/useBoundStore";
 
 import ArrowSvg from "@/assets/images/icon/arrow.svg";
 
@@ -17,6 +20,9 @@ const ButtonWrapper = styled.div`
       background: var(--button-hover-color);
     }
   }
+  .MuiCircularProgress-root {
+    color: var(--button-loading-color);
+  }
 `;
 
 type Props = {
@@ -25,24 +31,26 @@ type Props = {
   variant?: "login" | "oldFile";
 };
 const LoginButton = ({ onClick, disabled = false, variant }: Props) => {
+  const isLoading = useIsLoading();
+
   return (
     <ButtonWrapper>
       {variant === "login" && (
         <Button
           {...{
             variant: "contained",
-            disabled,
+            disabled: disabled || isLoading,
             onClick,
           }}
         >
-          <ArrowSvg />
+          {isLoading ? <CircularProgress /> : <ArrowSvg />}
         </Button>
       )}
       {variant === "oldFile" && (
         <Button
           {...{
             variant: "contained",
-            disabled,
+            disabled: disabled || isLoading,
             onClick,
           }}
         >

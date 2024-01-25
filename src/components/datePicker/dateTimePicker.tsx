@@ -3,6 +3,8 @@ import dayjs from "dayjs";
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
 
+import { useIsLoading } from "@/stores/useBoundStore";
+
 const PickerWrapper = styled.div`
   width: 100%;
   .MuiInputLabel-root {
@@ -57,6 +59,8 @@ const DateTimePicker = ({
 }: // defaultValue = "",
 // required = false,
 Props) => {
+  const isLoading = useIsLoading();
+
   return (
     <PickerWrapper>
       <Controller
@@ -93,6 +97,7 @@ Props) => {
                 inputRef: ref,
                 onChange,
                 onAccept: onChange,
+                disabled: isLoading,
               }}
             />
           ),

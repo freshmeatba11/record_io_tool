@@ -1,8 +1,15 @@
 "use client";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+
+import {
+  useFiles,
+  useFilesActions,
+  useGlobalAction,
+} from "@/stores/useBoundStore";
 
 import MedWorkerSvg from "@/assets/images/medical_workers.svg";
 import FrontTitle from "@/components/frontTitle";
@@ -35,8 +42,13 @@ const SvgWrapper = styled.div`
 `;
 
 export default function Home() {
-  const [oldFileArray, setOldFileArray] = useState<null | []>(null);
   const [showArea, setShowArea] = useState<"" | "input" | "oldFile">("");
+
+  const files = useFiles();
+  const fileActions = useFilesActions();
+  const globalActions = useGlobalAction();
+
+  const router = useRouter();
 
   const {
     control,
@@ -54,17 +66,20 @@ export default function Home() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    const date = new Date();
-    const created = date.getTime();
+    globalActions?.setLoading(true);
+    const created = dayjs().valueOf();
     const id = created;
+    const newFile = {
+      ...data,
+      checkInTime: dayjs(data.checkInTime).valueOf(),
+      id: id,
+      created: created,
+    };
 
-    const oldFile = localStorage.getItem("file");
-    const oldFileArray = oldFile ? JSON.parse(oldFile) : [];
-
-    const newFile = { ...data, id: id, created: created };
-    localStorage.setItem("file", JSON.stringify([...oldFileArray, newFile]));
-    reset({ checkInTime: dayjs() });
-    // todo 使用新建立的檔案id 跳轉到表格頁面
+    fileActions?.addNewFile(newFile);
+    fileActions?.changeCurrentFile(id);
+    globalActions?.setLoading(false);
+    router.push("/record");
   });
 
   const handleClickBackToList = () => {
@@ -72,36 +87,30 @@ export default function Home() {
     reset({ checkInTime: dayjs() });
   };
 
-  useEffect(() => {
-    const oldFile = localStorage.getItem("file");
-    const oldFileArray = oldFile ? JSON.parse(oldFile) : [];
-    setOldFileArray(oldFileArray);
-  }, [showArea]);
-
   return (
     <Wrapper>
       <FrontTitle title1="IO" title2="Recording" subTitle="輸出入量紀錄" />
-
-      {oldFileArray && (
+      {files && (
         <>
-          {oldFileArray.length === 0 || showArea === "input" ? (
+          {files.length === 0 || showArea === "input" ? (
             <LoginInputArea
               {...{
                 control,
                 onSubmit,
                 isValid,
                 handleClickBackToList,
-                hasOldFile: !!oldFileArray.length,
+                hasOldFile: !!files.length,
               }}
             />
           ) : null}
 
-          {(oldFileArray.length > 0 || showArea === "oldFile") &&
+          {(files.length > 0 || showArea === "oldFile") &&
           showArea !== "input" ? (
-            <OldFileList {...{ list: oldFileArray, setShowArea }} />
+            <OldFileList {...{ list: files, setShowArea }} />
           ) : null}
         </>
       )}
+
       <SvgWrapper>
         <MedWorkerSvg />
       </SvgWrapper>

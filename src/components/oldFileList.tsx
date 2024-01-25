@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+
+import { useFilesActions, useGlobalAction } from "@/stores/useBoundStore";
 
 import AvatarCard from "./card/avatarCard";
 
@@ -30,8 +33,15 @@ type Props = {
 };
 
 const OldFileList = ({ list, setShowArea }: Props) => {
-  const handleClickUseOldFile = () => {
-    // todo 使用舊檔跳轉到表格頁面
+  const router = useRouter();
+  const globalActions = useGlobalAction();
+  const fileActions = useFilesActions();
+
+  const handleClickUseOldFile = (id: number) => {
+    globalActions?.setLoading(true);
+    fileActions?.changeCurrentFile(id);
+    globalActions?.setLoading(false);
+    router.push("/record");
   };
   const handleClickAddNewFile = () => {
     setShowArea("input");
@@ -47,7 +57,9 @@ const OldFileList = ({ list, setShowArea }: Props) => {
           <AvatarCard
             key={index}
             {...{
-              onClick: handleClickUseOldFile,
+              onClick: () => {
+                handleClickUseOldFile(i.id);
+              },
               text: i.patientName,
             }}
           >

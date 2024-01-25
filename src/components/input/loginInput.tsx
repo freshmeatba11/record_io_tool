@@ -2,6 +2,8 @@ import TextField, { TextFieldVariants } from "@mui/material/TextField";
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
 
+import { useIsLoading } from "@/stores/useBoundStore";
+
 const InputWrapper = styled.div`
   width: 100%;
 
@@ -57,6 +59,8 @@ const LoginInput = ({
   required = false,
   variant = "outlined",
 }: Props) => {
+  const isLoading = useIsLoading();
+
   return (
     <InputWrapper>
       <Controller
@@ -75,6 +79,7 @@ const LoginInput = ({
                 error: !!error,
                 helperText: error ? error.message : "",
                 autoComplete: "off",
+                disabled: isLoading,
               }}
               {...field}
             />
