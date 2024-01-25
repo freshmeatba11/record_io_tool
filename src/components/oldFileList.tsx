@@ -21,7 +21,7 @@ type Props = {
   list: {
     hospitalName: string;
     patientName: string;
-    checkInTime: string;
+    checkInTime: number;
     bedNumber: string;
     id: number;
     created: number;
@@ -42,6 +42,7 @@ const OldFileList = ({ list, setShowArea }: Props) => {
       {list.map((i, index: number) => {
         const date = dayjs(i.checkInTime).format("YYYY/MM/DD");
         const time = dayjs(i.checkInTime).format("HH:mm");
+
         return (
           <AvatarCard
             key={index}
