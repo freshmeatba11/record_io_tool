@@ -10,20 +10,14 @@ import {
   useFilesActions,
   useGlobalAction,
 } from "@/stores/useBoundStore";
+import Styles from "@/theme/styles";
 
 import MedWorkerSvg from "@/assets/images/medical_workers.svg";
 import FrontTitle from "@/components/frontTitle";
 import LoginInputArea from "@/components/input/loginInputArea";
 import OldFileList from "@/components/oldFileList";
 
-const Wrapper = styled.main`
-  width: 100%;
-  height: 100%;
-  padding: 60px 0 0;
-
-  position: relative;
-  overflow-y: scroll;
-`;
+const Wrapper = Styles.main();
 const SvgWrapper = styled.div`
   margin: 0 auto;
   max-width: 390px;

@@ -21,6 +21,10 @@
   --old-file-list-background-color: var(--white-02, #f5f5f5a6);
 
   --avatar-card-info-text-color: var(--brown-02, #8c4b1c);
+
+  --record-header-divider: var(--brown-02, #8c4b1c);
+  --record-header-title-color: var(--brown-02, #8c4b1c);
+  --record-header-info-color: var(--brown-02, #8c4b1c);
 }
 
 @media (prefers-color-scheme: dark) {
