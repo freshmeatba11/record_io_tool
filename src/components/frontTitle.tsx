@@ -6,6 +6,7 @@ import Styles from "@/theme/styles";
 const Wrapper = styled.div`
   text-align: center;
   color: var(--front-title-color);
+  user-select: none;
 `;
 
 const Title = styled.h1`

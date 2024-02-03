@@ -14,6 +14,9 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 const TitleWrapper = styled.div`
+  user-select: none;
+  cursor: pointer;
+
   color: var(--record-header-title-color);
   h1 {
     font-family: ${Styles.font.abhayaLibre};

@@ -8,6 +8,7 @@ const InputWrapper = styled.div`
   width: 100%;
 
   .MuiInputLabel-root {
+    user-select: none;
     font-size: 14px;
     color: var(--input-text-color);
     transform: translate(19px, 9px) scale(1);
