@@ -1,9 +1,10 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
-import StyledComponentsRegistry from "@/lib/registry";
 import DatePickersProvider from "@/lib/datePickers";
+import StyledComponentsRegistry from "@/lib/registry";
 
 import Body from "@/components/body";
 import "./globals.css";
@@ -25,7 +26,10 @@ export default function RootLayout({
       <StyledComponentsRegistry>
         <Body className={inter.className}>
           <AppRouterCacheProvider>
-            <DatePickersProvider>{children}</DatePickersProvider>
+            <DatePickersProvider>
+              <Toaster position="bottom-right" richColors />
+              {children}
+            </DatePickersProvider>
           </AppRouterCacheProvider>
         </Body>
       </StyledComponentsRegistry>

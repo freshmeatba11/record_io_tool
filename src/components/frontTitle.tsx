@@ -1,7 +1,10 @@
-import React from "react";
+import { Abhaya_Libre } from "next/font/google";
 import styled from "styled-components";
 
-import Styles from "@/theme/styles";
+const abhayaLibre = Abhaya_Libre({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+});
 
 const Wrapper = styled.div`
   text-align: center;
@@ -10,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-family: ${Styles.font.abhayaLibre};
+  font-family: ${abhayaLibre.style.fontFamily};
   font-size: 64px;
   font-weight: 600;
   line-height: 64px;

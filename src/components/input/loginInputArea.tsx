@@ -41,7 +41,7 @@ const LoginInputArea = ({
 }: Props) => {
   return (
     <InputAreaWrapper>
-      {inputList.slice(0).map((item, index) => {
+      {inputList.map((item, index) => {
         if (item.id === "checkInTime")
           return (
             <DateTimePicker
