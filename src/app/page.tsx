@@ -19,11 +19,10 @@ import OldFileList from "@/components/oldFileList";
 
 const Wrapper = Styles.main();
 const SvgWrapper = styled.div`
-  margin: 0 auto;
   max-width: 390px;
   max-height: 318px;
 
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   left: 0;

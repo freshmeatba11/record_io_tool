@@ -1,9 +1,14 @@
 import dayjs from "dayjs";
+import { Abhaya_Libre } from "next/font/google";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import { useCurrentFile } from "@/stores/useBoundStore";
-import Styles from "@/theme/styles";
+
+const abhayaLibre = Abhaya_Libre({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+});
 
 const HeaderWrapper = styled.div`
   padding: 24px 24px 8px;
@@ -19,7 +24,7 @@ const TitleWrapper = styled.div`
 
   color: var(--record-header-title-color);
   h1 {
-    font-family: ${Styles.font.abhayaLibre};
+    font-family: ${abhayaLibre.style.fontFamily};
     font-size: 32px;
     font-weight: 600;
     line-height: 32px;
