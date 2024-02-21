@@ -6,6 +6,7 @@ import wallPaper from "@/assets/images/wall_paper.png";
 
 const BodyWrapper = styled.body`
   background-image: url(${wallPaper.src});
+  overflow-y: scroll;
 `;
 
 type Props = { className: string; children: React.ReactNode };

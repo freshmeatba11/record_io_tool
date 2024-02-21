@@ -1,7 +1,5 @@
-import React from "react";
-import styled from "styled-components";
-
 import { Abhaya_Libre } from "next/font/google";
+import styled from "styled-components";
 
 const abhayaLibre = Abhaya_Libre({
   weight: ["400", "600"],
@@ -11,6 +9,7 @@ const abhayaLibre = Abhaya_Libre({
 const Wrapper = styled.div`
   text-align: center;
   color: var(--front-title-color);
+  user-select: none;
 `;
 
 const Title = styled.h1`

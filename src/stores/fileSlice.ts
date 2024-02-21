@@ -15,7 +15,7 @@ type FileActions = {
     addNewRecord: (newRecord: RecordDetail) => void;
     editFile: (newValue: Omit<File, "id" | "created">) => void;
     deleteFile: () => void;
-    deleteRecord: (recordId: number) => void;
+    deleteRecord: (recordId: string) => void;
     resetAll: () => void;
   };
 };
@@ -28,8 +28,9 @@ type File = {
   bedNumber: string;
 };
 // todo 設定 紀錄資料 的結構
-type RecordDetail = {
-  id: number;
+export type RecordDetail = {
+  id: string;
+  created: number;
   date: number; //* 時間
   type: "water" | "food" | "urine" | "stool" | "other"; //* 類型
   amount: number; //* 量

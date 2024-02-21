@@ -1,12 +1,10 @@
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { Inter } from "next/font/google";
 import React from "react";
 import styled from "styled-components";
 
 import { useIsLoading } from "@/stores/useBoundStore";
-
-const inter = Inter({ weight: ["400"], subsets: ["latin"] });
+import Styles from "@/theme/styles";
 
 const AvatarCardWrapper = styled(Button)`
   &.MuiButtonBase-root {
@@ -15,7 +13,7 @@ const AvatarCardWrapper = styled(Button)`
     display: flex;
     justify-content: normal;
     gap: 8px;
-    font-family: ${inter.style.fontFamily};
+    font-family: ${Styles.font.inter};
   }
   &.loading {
     pointer-events: none;

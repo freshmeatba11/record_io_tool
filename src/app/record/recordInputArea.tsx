@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-import LoginButton from "../button/loginButton";
-import DateTimePicker from "../datePicker/dateTimePicker";
-import LoginInput from "./loginInput";
+import LoginButton from "@/components/button/loginButton";
+import DateTimePicker from "@/components/datePicker/dateTimePicker";
+import LoginInput from "@/components/input/loginInput";
 
 const InputAreaWrapper = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 270px;
-  padding: 40px 0 0;
+  padding: 24px 0 0;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -17,38 +18,30 @@ const InputAreaWrapper = styled.div`
 
 const inputList = [
   {
-    id: "hospitalName",
-    label: "醫院名",
+    id: "date",
+    label: "日期",
+    required: true,
   },
-  { id: "patientName", label: "病患姓名" },
-  { id: "checkInTime", label: "入院時間" },
-  { id: "bedNumber", label: "病床" },
+  { id: "amount", label: "計量", required: true },
+  { id: "notes", label: "備註", required: false },
 ];
 
 type Props = {
   control: any;
   onSubmit: any;
   isValid: boolean;
-  handleClickBackToList: () => void;
-  hasOldFile: boolean;
 };
-const LoginInputArea = ({
-  control,
-  onSubmit,
-  isValid,
-  handleClickBackToList,
-  hasOldFile,
-}: Props) => {
+const RecordInputArea = ({ control, onSubmit, isValid }: Props) => {
   return (
     <InputAreaWrapper>
       {inputList.map((item, index) => {
-        if (item.id === "checkInTime")
+        if (item.id === "date")
           return (
             <DateTimePicker
               key={index}
               {...{
                 control,
-                required: true,
+                required: item.required,
                 id: item.id,
                 label: item.label,
               }}
@@ -59,7 +52,7 @@ const LoginInputArea = ({
             key={index}
             {...{
               control,
-              required: true,
+              required: item.required,
               id: item.id,
               label: item.label,
             }}
@@ -70,17 +63,8 @@ const LoginInputArea = ({
       <LoginButton
         {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}
       />
-      {hasOldFile && (
-        <LoginButton
-          {...{
-            onClick: handleClickBackToList,
-            disabled: !hasOldFile,
-            variant: "oldFile",
-          }}
-        />
-      )}
     </InputAreaWrapper>
   );
 };
 
-export default LoginInputArea;
+export default RecordInputArea;

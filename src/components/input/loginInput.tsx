@@ -8,6 +8,7 @@ const InputWrapper = styled.div`
   width: 100%;
 
   .MuiInputLabel-root {
+    user-select: none;
     font-size: 14px;
     color: var(--input-text-color);
     transform: translate(19px, 9px) scale(1);
@@ -22,7 +23,7 @@ const InputWrapper = styled.div`
     width: 100%;
   }
   .MuiOutlinedInput-root {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--input-text-color);
 
     & input {
@@ -68,7 +69,7 @@ const LoginInput = ({
           name: id,
           control,
           defaultValue,
-          rules: { required: { value: true, message: "必填" } },
+          rules: { required: { value: required, message: "必填" } },
           render: ({ field, fieldState: { error } }) => (
             <TextField
               {...{
