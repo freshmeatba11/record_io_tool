@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { RecordDetail } from "@/stores/fileSlice";
+
 import LoginButton from "@/components/button/loginButton";
 import DateTimePicker from "@/components/datePicker/dateTimePicker";
 import LoginInput from "@/components/input/loginInput";
@@ -30,36 +32,39 @@ type Props = {
   control: any;
   onSubmit: any;
   isValid: boolean;
+  type: RecordDetail["type"] | undefined;
 };
-const RecordInputArea = ({ control, onSubmit, isValid }: Props) => {
+const RecordInputArea = ({ control, onSubmit, isValid, type }: Props) => {
   return (
     <InputAreaWrapper>
-      {inputList.map((item, index) => {
-        if (item.id === "date")
+      {inputList
+        .toSpliced(type === "stool" ? 1 : inputList.length, 1)
+        .map((item, index) => {
+          if (item.id === "date")
+            return (
+              <DateTimePicker
+                key={index}
+                {...{
+                  control,
+                  required: item.required,
+                  id: item.id,
+                  label: item.label,
+                  openTo: "hours",
+                }}
+              />
+            );
           return (
-            <DateTimePicker
+            <LoginInput
               key={index}
               {...{
                 control,
                 required: item.required,
                 id: item.id,
                 label: item.label,
-                openTo: "hours",
               }}
             />
           );
-        return (
-          <LoginInput
-            key={index}
-            {...{
-              control,
-              required: item.required,
-              id: item.id,
-              label: item.label,
-            }}
-          />
-        );
-      })}
+        })}
 
       <LoginButton
         {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}

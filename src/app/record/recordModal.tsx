@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import typeConfig from "@/config/type.json";
+import { RecordDetail } from "@/stores/fileSlice";
 
 import Modal from "@/components/modal/modal";
 import CreateIcon from "@mui/icons-material/Create";
@@ -57,12 +58,14 @@ const ButtonArea = styled.div`
 const RecordModal = () => {
   const [open, setOpen] = useState(false);
   const [subModalOpen, setSubModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState<
+    RecordDetail["type"] | undefined
+  >(undefined);
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
-  const handleTypeButtonClick = (clickedType: string) => {
+  const handleTypeButtonClick = (clickedType: RecordDetail["type"]) => {
     setSelectedType(clickedType);
     setSubModalOpen(true);
   };
@@ -83,7 +86,7 @@ const RecordModal = () => {
               <TypeButton
                 key={type}
                 onClick={() => {
-                  handleTypeButtonClick(type);
+                  handleTypeButtonClick(type as RecordDetail["type"]);
                 }}
               >
                 <span>{typeConfig[type as keyof typeof typeConfig]}</span>

@@ -13,7 +13,7 @@ import RecordInputArea from "./recordInputArea";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  type: string;
+  type: RecordDetail["type"] | undefined;
   closeParentModal: () => void;
 };
 const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
@@ -44,6 +44,7 @@ const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
   };
 
   const onSubmit = handleSubmit((data) => {
+    if (!type) return;
     globalActions?.setLoading(true);
 
     const created = dayjs().valueOf();
@@ -51,8 +52,8 @@ const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
     const newRecord: RecordDetail = {
       ...data,
       date: dayjs(data.date).valueOf(),
-      amount: Number(data.amount),
-      type: type as RecordDetail["type"],
+      amount: type != "stool" ? Number(data.amount) : 0,
+      type: type,
       id: id,
       created: created,
     };
@@ -70,7 +71,9 @@ const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
       open={open}
       setOpen={closeModal}
       title={title}
-      modalContent={<RecordInputArea {...{ control, onSubmit, isValid }} />}
+      modalContent={
+        <RecordInputArea {...{ control, onSubmit, isValid, type }} />
+      }
     />
   );
 };
