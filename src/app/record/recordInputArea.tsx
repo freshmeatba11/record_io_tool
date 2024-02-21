@@ -44,6 +44,7 @@ const RecordInputArea = ({ control, onSubmit, isValid }: Props) => {
                 required: item.required,
                 id: item.id,
                 label: item.label,
+                openTo: "hours",
               }}
             />
           );

@@ -1,4 +1,5 @@
 import { DateTimePicker as OriginDateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DateOrTimeViewWithMeridiem } from "@mui/x-date-pickers/internals/models";
 import dayjs from "dayjs";
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
@@ -48,17 +49,17 @@ type Props = {
   control: any;
   id: string;
   label: string;
-  // defaultValue?: string;
-  // required?: boolean;
+  openTo?: DateOrTimeViewWithMeridiem;
+  required?: boolean;
 };
 
 const DateTimePicker = ({
   control,
   id,
   label,
-}: // defaultValue = "",
-// required = false,
-Props) => {
+  openTo,
+  required = false,
+}: Props) => {
   const isLoading = useIsLoading();
 
   return (
@@ -67,9 +68,8 @@ Props) => {
         {...{
           name: id,
           control,
-          //   defaultValue,
           rules: {
-            required: {
+            required: required && {
               value: true,
               message: "required",
             },
@@ -93,6 +93,7 @@ Props) => {
                   },
                 },
                 ampm: false,
+                openTo,
                 value,
                 inputRef: ref,
                 onChange,
