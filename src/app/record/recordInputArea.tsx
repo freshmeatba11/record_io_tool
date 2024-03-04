@@ -24,8 +24,20 @@ const inputList = [
     label: "日期",
     required: true,
   },
-  { id: "amount", label: "計量", required: true },
-  { id: "notes", label: "備註", required: false },
+  {
+    id: "amount",
+    label: "計量",
+    required: true,
+    isOnlyNumber: true,
+    maxLength: 6,
+  },
+  {
+    id: "notes",
+    label: "備註",
+    required: false,
+    maxLength: 150,
+    multiline: true,
+  },
 ];
 
 type Props = {
@@ -61,6 +73,9 @@ const RecordInputArea = ({ control, onSubmit, isValid, type }: Props) => {
                 required: item.required,
                 id: item.id,
                 label: item.label,
+                isOnlyNumber: item.isOnlyNumber,
+                maxLength: item.maxLength,
+                multiline: item.multiline,
               }}
             />
           );

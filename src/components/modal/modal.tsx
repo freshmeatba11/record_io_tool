@@ -11,7 +11,9 @@ const ModalWrapper = styled.div`
   translate: -50% -50%;
 
   width: clamp(300px, 90%, 500px);
-  height: clamp(300px, min-content, 700px);
+  height: min-content;
+  max-height: 95svh;
+  overflow-y: hidden;
   background-color: var(--modal-background);
   border-radius: 8px;
   padding: 12px;
@@ -22,8 +24,7 @@ const ModalTitle = styled.h2`
   color: var(--modal-title-color);
 `;
 const ModalContent = styled.div`
-  /* 100%-titleHeight-marginTop */
-  height: calc(100% - 33px - 16px);
+  max-height: 85svh;
   margin-top: 16px;
   overflow-y: auto;
 `;
