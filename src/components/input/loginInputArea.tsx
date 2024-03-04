@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import LoginButton from "../button/loginButton";
+import Button from "../button/button";
 import DateTimePicker from "../datePicker/dateTimePicker";
 import LoginInput from "./loginInput";
 
@@ -67,15 +67,15 @@ const LoginInputArea = ({
         );
       })}
 
-      <LoginButton
-        {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}
+      <Button
+        {...{ onClick: onSubmit, disabled: !isValid, variant: "arrow" }}
       />
       {hasOldFile && (
-        <LoginButton
+        <Button
           {...{
             onClick: handleClickBackToList,
             disabled: !hasOldFile,
-            variant: "oldFile",
+            text: "回到列表",
           }}
         />
       )}

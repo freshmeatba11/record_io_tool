@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import typeConfig from "@/config/type.json";
 import { RecordDetail } from "@/stores/fileSlice";
-import { useFilesActions, useGlobalAction } from "@/stores/useBoundStore";
+import { useFilesActions, useGlobalActions } from "@/stores/useBoundStore";
 
 import Modal from "@/components/modal/modal";
 import RecordInputArea from "./recordInputArea";
@@ -17,7 +17,7 @@ type Props = {
   closeParentModal: () => void;
 };
 const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
-  const globalActions = useGlobalAction();
+  const globalActions = useGlobalActions();
   const fileActions = useFilesActions();
 
   const {

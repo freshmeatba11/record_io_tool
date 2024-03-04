@@ -103,9 +103,7 @@ export const createFileSlice: StateCreator<
 
         delete state.fileDatas[currentFileId];
         state.currentFile = null;
-        return {
-          files: [...get().files.filter((file) => file.id !== currentFileId)],
-        };
+        state.files = state.files.filter((file) => file.id !== currentFileId);
       }),
     //* 刪除當下使用的檔案之紀錄
     deleteRecord: (recordId) =>

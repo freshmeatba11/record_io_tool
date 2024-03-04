@@ -27,16 +27,25 @@ const ModalContent = styled.div`
   max-height: 85svh;
   margin-top: 16px;
   overflow-y: auto;
+  padding-bottom: 20px;
 `;
 
-type Props = {
+export type ModalProps = {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | ((value: boolean) => void);
   title?: React.ReactNode;
   modalContent: React.ReactNode;
   nestedModal?: React.ReactNode;
 };
-const Modal = ({ title, modalContent, open, setOpen, nestedModal }: Props) => {
+const Modal = ({
+  title,
+  modalContent,
+  open,
+  setOpen,
+  nestedModal,
+}: ModalProps) => {
   const handleClose = () => setOpen(false);
 
   return (

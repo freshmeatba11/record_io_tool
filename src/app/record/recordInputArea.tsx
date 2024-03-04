@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { RecordDetail } from "@/stores/fileSlice";
 
-import LoginButton from "@/components/button/loginButton";
+import Button from "@/components/button/button";
 import DateTimePicker from "@/components/datePicker/dateTimePicker";
 import LoginInput from "@/components/input/loginInput";
 
@@ -81,8 +81,8 @@ const RecordInputArea = ({ control, onSubmit, isValid, type }: Props) => {
           );
         })}
 
-      <LoginButton
-        {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}
+      <Button
+        {...{ onClick: onSubmit, disabled: !isValid, variant: "arrow" }}
       />
     </InputAreaWrapper>
   );

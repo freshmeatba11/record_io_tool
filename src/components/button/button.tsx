@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import MuiButton from "@mui/material/Button";
 import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -23,42 +23,48 @@ const ButtonWrapper = styled.div`
   .MuiCircularProgress-root {
     color: var(--button-loading-color);
   }
+  .delete {
+    --button-color: var(--red-01);
+    --button-hover-color: var(--red-01);
+  }
 `;
 
 type Props = {
   onClick: any;
   disabled?: boolean;
-  variant?: "login" | "oldFile";
+  variant?: "arrow";
+  text?: React.ReactNode;
+  className?: string;
 };
-const LoginButton = ({ onClick, disabled = false, variant }: Props) => {
+const Button = ({
+  onClick,
+  disabled = false,
+  variant,
+  text,
+  className,
+}: Props) => {
   const isLoading = useIsLoading();
 
   return (
     <ButtonWrapper>
-      {variant === "login" && (
-        <Button
-          {...{
-            variant: "contained",
-            disabled: disabled || isLoading,
-            onClick,
-          }}
-        >
-          {isLoading ? <CircularProgress /> : <ArrowSvg />}
-        </Button>
-      )}
-      {variant === "oldFile" && (
-        <Button
-          {...{
-            variant: "contained",
-            disabled: disabled || isLoading,
-            onClick,
-          }}
-        >
-          回到列表
-        </Button>
-      )}
+      <MuiButton
+        {...{
+          variant: "contained",
+          disabled: disabled || isLoading,
+          onClick,
+          className,
+        }}
+      >
+        {isLoading ? (
+          <CircularProgress />
+        ) : variant === "arrow" ? (
+          <ArrowSvg />
+        ) : (
+          text
+        )}
+      </MuiButton>
     </ButtonWrapper>
   );
 };
 
-export default LoginButton;
+export default Button;
