@@ -1,9 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRowId,
+} from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import React from "react";
+import { toast } from "sonner";
+import styled from "styled-components";
 
 import typeConfig from "@/config/type.json";
+import { useFilesActions, useGlobalActions } from "@/stores/useBoundStore";
+
+import Button from "@/components/button/button";
 
 const TableWrapper = styled.div`
   width: 100%;
@@ -55,6 +65,12 @@ const TableWrapper = styled.div`
   }
 `;
 
+const ConfirmButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
 const typeFormatter = typeConfig;
 const amountFormatter = {
   water: (v: number) => `${v} ml`,
@@ -64,58 +80,116 @@ const amountFormatter = {
   other: (v: number) => `${v}`,
 };
 
-const columnsConfig: GridColDef[] = [
-  {
-    field: "date",
-    headerName: "日期",
-    valueGetter: ({ row }) => {
-      return dayjs(Number(row.date)).format("YYYY/MM/DD");
-    },
-    width: 100,
-  },
-  {
-    field: "time",
-    headerName: "時間",
-    valueGetter: ({ row }) => {
-      return dayjs(Number(row.date)).format("HH:mm");
-    },
-    width: 80,
-  },
-  {
-    field: "type",
-    headerName: "類別",
-    valueGetter: ({ row }) => {
-      return typeFormatter[row.type as keyof typeof typeFormatter];
-    },
-    width: 80,
-  },
-  {
-    field: "amount",
-    headerName: "計量",
-    valueGetter: ({ row }) => {
-      return amountFormatter[row.type as keyof typeof typeFormatter](
-        row.amount
-      );
-    },
-    width: 80,
-  },
-  {
-    field: "notes",
-    headerName: "備註",
-    flex: 1,
-    minWidth: 164,
-  },
-];
-const columns: GridColDef[] = columnsConfig.map((column) => ({
-  headerAlign: "center",
-  align: "center",
-  ...column,
-}));
 type Props = {
   rows: any[];
 };
-
 const Table = ({ rows }: Props) => {
+  const globalActions = useGlobalActions();
+  const fileActions = useFilesActions();
+
+  const handleDeleteWithConfirm = React.useCallback(
+    (id: GridRowId) => () => {
+      globalActions?.setRootModalConfig({
+        title: "確定要刪除紀錄嗎?",
+        subtitle: "＊此動作無法回復",
+        modalContent: (
+          <ConfirmButtonWrapper>
+            <Button
+              {...{
+                onClick: () => {
+                  globalActions?.setLoading(true);
+                  fileActions?.deleteRecord(id.toString());
+                  globalActions?.setLoading(false);
+
+                  toast.success("刪除成功！");
+                  globalActions?.setRootModalOpen(false);
+                },
+                disabled: false,
+                text: "刪除",
+                className: "delete",
+              }}
+            />
+            <Button
+              {...{
+                onClick: () => globalActions?.setRootModalOpen(false),
+                disabled: false,
+                text: "取消",
+              }}
+            />
+          </ConfirmButtonWrapper>
+        ),
+      });
+      globalActions?.setRootModalOpen(true);
+    },
+    // eslint-disable-next-line
+    [globalActions]
+  );
+
+  const columnsConfig: GridColDef[] = React.useMemo(
+    () => [
+      {
+        field: "date",
+        headerName: "日期",
+        valueGetter: ({ row }) => {
+          return dayjs(Number(row.date)).format("YYYY/MM/DD");
+        },
+        width: 100,
+      },
+      {
+        field: "time",
+        headerName: "時間",
+        valueGetter: ({ row }) => {
+          return dayjs(Number(row.date)).format("HH:mm");
+        },
+        width: 80,
+      },
+      {
+        field: "type",
+        headerName: "類別",
+        valueGetter: ({ row }) => {
+          return typeFormatter[row.type as keyof typeof typeFormatter];
+        },
+        width: 80,
+      },
+      {
+        field: "amount",
+        headerName: "計量",
+        valueGetter: ({ row }) => {
+          return amountFormatter[row.type as keyof typeof amountFormatter](
+            row.amount
+          );
+        },
+        width: 80,
+      },
+      {
+        field: "notes",
+        headerName: "備註",
+        flex: 1,
+        minWidth: 164,
+      },
+      {
+        field: "actions",
+        type: "actions",
+        width: 30,
+        getActions: (params) => [
+          <GridActionsCellItem
+            key={params.id}
+            icon={<DeleteIcon />}
+            onClick={handleDeleteWithConfirm(params.id)}
+            label="Delete"
+          />,
+        ],
+      },
+    ],
+    [handleDeleteWithConfirm]
+  );
+
+  const columns: GridColDef[] = columnsConfig.map((column) => ({
+    headerAlign: "center",
+    align: "center",
+    ...column,
+  }));
+
   return (
     <TableWrapper>
       <DataGrid

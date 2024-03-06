@@ -115,6 +115,8 @@ const InfoModal = ({ children }: Props) => {
         bedNumber: currentFile.bedNumber,
       });
     }
+
+    // eslint-disable-next-line
   }, [currentFile]);
 
   return (
