@@ -26,6 +26,7 @@ const RootModal = ({ children }: RootModalProps) => {
         setOpen={globalActions?.setRootModalOpen ?? (() => {})}
         {...{
           title: rootModalConfig?.title,
+          subtitle: rootModalConfig?.subtitle,
           modalContent: rootModalConfig?.modalContent,
           nestedModal: rootModalConfig?.nestedModal,
         }}

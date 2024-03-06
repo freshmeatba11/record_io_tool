@@ -23,6 +23,12 @@ const ModalTitle = styled.h2`
   letter-spacing: 4px;
   color: var(--modal-title-color);
 `;
+const ModalSubtitle = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: var(--modal-subtitle-color);
+`;
 const ModalContent = styled.div`
   max-height: 85svh;
   margin-top: 16px;
@@ -36,11 +42,13 @@ export type ModalProps = {
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((value: boolean) => void);
   title?: React.ReactNode;
+  subtitle?: React.ReactNode;
   modalContent: React.ReactNode;
   nestedModal?: React.ReactNode;
 };
 const Modal = ({
   title,
+  subtitle,
   modalContent,
   open,
   setOpen,
@@ -62,7 +70,8 @@ const Modal = ({
     >
       <Fade in={open}>
         <ModalWrapper>
-          <ModalTitle>{title}</ModalTitle>
+          {title && <ModalTitle>{title}</ModalTitle>}
+          {subtitle && <ModalSubtitle>{subtitle}</ModalSubtitle>}
           <ModalContent>{modalContent}</ModalContent>
           {nestedModal}
         </ModalWrapper>

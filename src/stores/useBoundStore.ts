@@ -43,7 +43,11 @@ const useFileDatas = () => useStore(useBoundStore, (s) => s.fileDatas);
 const useFilesActions = () => useStore(useBoundStore, (s) => s.fileActions);
 
 const useIsLoading = () => useStore(useBoundStore, (s) => s.isLoading);
-const useGlobalAction = () => useStore(useBoundStore, (s) => s.globalActions);
+const useIsRootModalOpen = () =>
+  useStore(useBoundStore, (s) => s.isRootModalOpen);
+const useRootModalConfig = () =>
+  useStore(useBoundStore, (s) => s.rootModalConfig);
+const useGlobalActions = () => useStore(useBoundStore, (s) => s.globalActions);
 
 export {
   useFiles,
@@ -51,5 +55,7 @@ export {
   useFileDatas,
   useFilesActions,
   useIsLoading,
-  useGlobalAction,
+  useIsRootModalOpen,
+  useRootModalConfig,
+  useGlobalActions,
 };
