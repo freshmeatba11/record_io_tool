@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-import LoginButton from "@/components/button/loginButton";
+import { RecordDetail } from "@/stores/fileSlice";
+
+import Button from "@/components/button/button";
 import DateTimePicker from "@/components/datePicker/dateTimePicker";
 import LoginInput from "@/components/input/loginInput";
 
@@ -22,46 +24,65 @@ const inputList = [
     label: "日期",
     required: true,
   },
-  { id: "amount", label: "計量", required: true },
-  { id: "notes", label: "備註", required: false },
+  {
+    id: "amount",
+    label: "計量",
+    required: true,
+    isOnlyNumber: true,
+    maxLength: 6,
+  },
+  {
+    id: "notes",
+    label: "備註",
+    required: false,
+    maxLength: 150,
+    multiline: true,
+  },
 ];
 
 type Props = {
   control: any;
   onSubmit: any;
   isValid: boolean;
+  type: RecordDetail["type"] | undefined;
 };
-const RecordInputArea = ({ control, onSubmit, isValid }: Props) => {
+const RecordInputArea = ({ control, onSubmit, isValid, type }: Props) => {
   return (
     <InputAreaWrapper>
-      {inputList.map((item, index) => {
-        if (item.id === "date")
+      {inputList
+        .toSpliced(type === "stool" ? 1 : inputList.length, 1)
+        .map((item, index) => {
+          if (item.id === "date")
+            return (
+              <DateTimePicker
+                key={index}
+                {...{
+                  control,
+                  required: item.required,
+                  id: item.id,
+                  label: item.label,
+                  openTo: "hours",
+                }}
+              />
+            );
           return (
-            <DateTimePicker
+            <LoginInput
               key={index}
               {...{
                 control,
                 required: item.required,
                 id: item.id,
                 label: item.label,
+                isOnlyNumber: item.isOnlyNumber,
+                maxLength: item.maxLength,
+                multiline: item.multiline,
               }}
             />
           );
-        return (
-          <LoginInput
-            key={index}
-            {...{
-              control,
-              required: item.required,
-              id: item.id,
-              label: item.label,
-            }}
-          />
-        );
-      })}
+        })}
 
-      <LoginButton
-        {...{ onClick: onSubmit, disabled: !isValid, variant: "login" }}
+      <Button
+        {...{ onClick: onSubmit, disabled: !isValid, variant: "arrow" }}
       />
     </InputAreaWrapper>
   );

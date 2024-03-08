@@ -2,8 +2,11 @@ import dayjs from "dayjs";
 import { Abhaya_Libre } from "next/font/google";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 import { useCurrentFile } from "@/stores/useBoundStore";
+
+import InfoModal from "./infoModal";
 
 const abhayaLibre = Abhaya_Libre({
   weight: ["400", "600"],
@@ -77,6 +80,16 @@ const Header = () => {
   const router = useRouter();
   const HandleLogoClick = () => router.push("/");
 
+  //* prevent hydrate error
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) return null;
+  //* prevent hydrate error
+
   return (
     <HeaderWrapper>
       <ContentWrapper>
@@ -88,28 +101,30 @@ const Header = () => {
           <h2>輸出入量紀錄</h2>
         </TitleWrapper>
 
-        <InfoWrapper>
-          <p>
-            <span>病患姓名：</span>
-            <span>{currentFile?.patientName}</span>
-          </p>
-          <p>
-            <span>醫院名：</span>
-            <span>{currentFile?.hospitalName}</span>
-          </p>
-          <p>
-            <span>病床：</span>
-            <span>{currentFile?.bedNumber}</span>
-          </p>
-          <p>
-            <span>入院時間：</span>
-            <span>{date}</span>
-          </p>
-          <p>
-            <span></span>
-            <span>{time}</span>
-          </p>
-        </InfoWrapper>
+        <InfoModal>
+          <InfoWrapper>
+            <p>
+              <span>病患姓名：</span>
+              <span>{currentFile?.patientName}</span>
+            </p>
+            <p>
+              <span>醫院名：</span>
+              <span>{currentFile?.hospitalName}</span>
+            </p>
+            <p>
+              <span>病床：</span>
+              <span>{currentFile?.bedNumber}</span>
+            </p>
+            <p>
+              <span>入院時間：</span>
+              <span>{date}</span>
+            </p>
+            <p>
+              <span></span>
+              <span>{time}</span>
+            </p>
+          </InfoWrapper>
+        </InfoModal>
       </ContentWrapper>
 
       <Divider />

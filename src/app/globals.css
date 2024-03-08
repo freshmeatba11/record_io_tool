@@ -20,6 +20,7 @@
   --brown-800: #8d4b1c;
   --brown-900: #653f1f;
   --brown-950: #3b230c;
+  --red-01: #f21e1e;
 
   --front-title-color: var(--brown-02, #8c4b1c);
 
@@ -50,7 +51,8 @@
   --table-background-color-odd: var(--brown-100);
 
   --modal-background: var(--white-03, #f4f4f5);
-  --modal-title-color: var(--brown-90, #653f1f);
+  --modal-title-color: var(--brown-900, #653f1f);
+  --modal-subtitle-color: var(--brown-300, #653f1f);
   --modal-triger-background: var(--brown-500, #c67a2a);
   --modal-triger-color: var(--white-03, #f4f4f5);
   --modal-type-button-background: var(--brown-04, #ae8c42);

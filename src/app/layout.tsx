@@ -8,6 +8,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 
 import Body from "@/components/body";
 import "./globals.css";
+import RootModal from "@/components/modal/rootModal";
 
 const inter = Inter({ weight: ["100", "400", "500"], subsets: ["latin"] });
 
@@ -28,7 +29,7 @@ export default function RootLayout({
           <AppRouterCacheProvider>
             <DatePickersProvider>
               <Toaster position="bottom-right" richColors />
-              {children}
+              <RootModal>{children}</RootModal>
             </DatePickersProvider>
           </AppRouterCacheProvider>
         </Body>

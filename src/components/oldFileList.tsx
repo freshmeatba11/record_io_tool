@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 
-import { useFilesActions, useGlobalAction } from "@/stores/useBoundStore";
+import { useFilesActions, useGlobalActions } from "@/stores/useBoundStore";
 
 import AvatarCard from "./card/avatarCard";
 
@@ -34,7 +34,7 @@ type Props = {
 
 const OldFileList = ({ list, setShowArea }: Props) => {
   const router = useRouter();
-  const globalActions = useGlobalAction();
+  const globalActions = useGlobalActions();
   const fileActions = useFilesActions();
 
   const handleClickUseOldFile = (id: number) => {

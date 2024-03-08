@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-import Button from "../button/button";
-import DateTimePicker from "../datePicker/dateTimePicker";
-import LoginInput from "./loginInput";
+import Button from "@/components/button/button";
+import DateTimePicker from "@/components/datePicker/dateTimePicker";
+import LoginInput from "@/components/input/loginInput";
 
 const InputAreaWrapper = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 270px;
-  padding: 40px 0 0;
+  padding: 40px 0 8px;
 
   display: flex;
   flex-direction: column;
@@ -25,20 +25,20 @@ const inputList = [
   { id: "bedNumber", label: "病床" },
 ];
 
-type Props = {
+type InfoInputAreaProps = {
   control: any;
-  onSubmit: any;
+  onSubmit: () => void;
   isValid: boolean;
-  handleClickBackToList: () => void;
-  hasOldFile: boolean;
+  isDirty: boolean;
+  handleDelete: () => void;
 };
-const LoginInputArea = ({
+const InfoInputArea = ({
   control,
   onSubmit,
   isValid,
-  handleClickBackToList,
-  hasOldFile,
-}: Props) => {
+  isDirty,
+  handleDelete,
+}: InfoInputAreaProps) => {
   return (
     <InputAreaWrapper>
       {inputList.map((item, index) => {
@@ -68,19 +68,22 @@ const LoginInputArea = ({
       })}
 
       <Button
-        {...{ onClick: onSubmit, disabled: !isValid, variant: "arrow" }}
+        {...{
+          onClick: handleDelete,
+          disabled: false,
+          text: "刪除",
+          className: "delete",
+        }}
       />
-      {hasOldFile && (
-        <Button
-          {...{
-            onClick: handleClickBackToList,
-            disabled: !hasOldFile,
-            text: "回到列表",
-          }}
-        />
-      )}
+      <Button
+        {...{
+          onClick: onSubmit,
+          disabled: !isValid || !isDirty,
+          text: "儲存",
+        }}
+      />
     </InputAreaWrapper>
   );
 };
 
-export default LoginInputArea;
+export default InfoInputArea;

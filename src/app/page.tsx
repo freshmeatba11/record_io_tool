@@ -8,7 +8,7 @@ import styled from "styled-components";
 import {
   useFiles,
   useFilesActions,
-  useGlobalAction,
+  useGlobalActions,
 } from "@/stores/useBoundStore";
 import Styles from "@/theme/styles";
 
@@ -39,7 +39,7 @@ export default function Home() {
 
   const files = useFiles();
   const fileActions = useFilesActions();
-  const globalActions = useGlobalAction();
+  const globalActions = useGlobalActions();
 
   const router = useRouter();
 

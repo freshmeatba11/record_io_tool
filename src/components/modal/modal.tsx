@@ -11,7 +11,9 @@ const ModalWrapper = styled.div`
   translate: -50% -50%;
 
   width: clamp(300px, 90%, 500px);
-  height: clamp(300px, min-content, 700px);
+  height: min-content;
+  max-height: 95svh;
+  overflow-y: hidden;
   background-color: var(--modal-background);
   border-radius: 8px;
   padding: 12px;
@@ -21,21 +23,37 @@ const ModalTitle = styled.h2`
   letter-spacing: 4px;
   color: var(--modal-title-color);
 `;
+const ModalSubtitle = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: var(--modal-subtitle-color);
+`;
 const ModalContent = styled.div`
-  /* 100%-titleHeight-marginTop */
-  height: calc(100% - 33px - 16px);
+  max-height: 85svh;
   margin-top: 16px;
   overflow-y: auto;
+  padding-bottom: 20px;
 `;
 
-type Props = {
+export type ModalProps = {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | ((value: boolean) => void);
   title?: React.ReactNode;
+  subtitle?: React.ReactNode;
   modalContent: React.ReactNode;
   nestedModal?: React.ReactNode;
 };
-const Modal = ({ title, modalContent, open, setOpen, nestedModal }: Props) => {
+const Modal = ({
+  title,
+  subtitle,
+  modalContent,
+  open,
+  setOpen,
+  nestedModal,
+}: ModalProps) => {
   const handleClose = () => setOpen(false);
 
   return (
@@ -52,7 +70,8 @@ const Modal = ({ title, modalContent, open, setOpen, nestedModal }: Props) => {
     >
       <Fade in={open}>
         <ModalWrapper>
-          <ModalTitle>{title}</ModalTitle>
+          {title && <ModalTitle>{title}</ModalTitle>}
+          {subtitle && <ModalSubtitle>{subtitle}</ModalSubtitle>}
           <ModalContent>{modalContent}</ModalContent>
           {nestedModal}
         </ModalWrapper>
