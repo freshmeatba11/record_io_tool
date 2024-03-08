@@ -1,8 +1,16 @@
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+import DatePickersProvider from "@/lib/datePickers";
+import StyledComponentsRegistry from "@/lib/registry";
+
+import Body from "@/components/body";
+import "./globals.css";
+import RootModal from "@/components/modal/rootModal";
+
+const inter = Inter({ weight: ["100", "400", "500"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Record I/O Tool",
@@ -16,7 +24,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant-TW">
-      <body className={inter.className}>{children}</body>
+      <StyledComponentsRegistry>
+        <Body className={inter.className}>
+          <AppRouterCacheProvider>
+            <DatePickersProvider>
+              <Toaster position="bottom-right" richColors />
+              <RootModal>{children}</RootModal>
+            </DatePickersProvider>
+          </AppRouterCacheProvider>
+        </Body>
+      </StyledComponentsRegistry>
     </html>
   );
 }
