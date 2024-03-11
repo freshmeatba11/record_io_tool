@@ -27,7 +27,6 @@ type File = {
   checkInTime: number;
   bedNumber: string;
 };
-// todo 設定 紀錄資料 的結構
 export type RecordDetail = {
   id: string;
   created: number;
@@ -40,7 +39,6 @@ type Data = {
   id: number;
   recordLists: RecordDetail[];
 };
-// todo 設定 紀錄資料 的結構
 
 export const createFileSlice: StateCreator<
   FileSlice & GlobalSlice,

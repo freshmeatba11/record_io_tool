@@ -206,7 +206,6 @@ const Table = ({ rows }: Props) => {
         getRowHeight={() => "auto"}
         columnHeaderHeight={35}
         rowSpacingType="border"
-        // todo 處理客製tool tip
       />
     </TableWrapper>
   );
