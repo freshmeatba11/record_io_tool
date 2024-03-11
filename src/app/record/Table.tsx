@@ -99,10 +99,11 @@ const Table = ({ rows }: Props) => {
                 onClick: () => {
                   globalActions?.setLoading(true);
                   fileActions?.deleteRecord(id.toString());
-                  globalActions?.setLoading(false);
-
-                  toast.success("刪除成功！");
-                  globalActions?.setRootModalOpen(false);
+                  setTimeout(() => {
+                    toast.success("刪除成功！");
+                    globalActions?.setRootModalOpen(false);
+                    globalActions?.setLoading(false);
+                  });
                 },
                 disabled: false,
                 text: "刪除",

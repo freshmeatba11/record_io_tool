@@ -21,11 +21,12 @@ const Wrapper = Styles.main();
 const SvgWrapper = styled.div`
   max-width: 390px;
   max-height: 318px;
+  width: 100%;
 
   position: absolute;
   bottom: 0;
-  right: 0;
-  left: 0;
+  left: 50%;
+  translate: -50% 0;
 
   z-index: -1;
   svg {
@@ -71,8 +72,10 @@ export default function Home() {
 
     fileActions?.addNewFile(newFile);
     fileActions?.changeCurrentFile(id);
-    globalActions?.setLoading(false);
-    router.push("/record");
+    setTimeout(() => {
+      router.push("/record");
+      globalActions?.setLoading(false);
+    });
   });
 
   const handleClickBackToList = () => {

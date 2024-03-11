@@ -40,8 +40,10 @@ const OldFileList = ({ list, setShowArea }: Props) => {
   const handleClickUseOldFile = (id: number) => {
     globalActions?.setLoading(true);
     fileActions?.changeCurrentFile(id);
-    globalActions?.setLoading(false);
-    router.push("/record");
+    setTimeout(() => {
+      router.push("/record");
+      globalActions?.setLoading(false);
+    });
   };
   const handleClickAddNewFile = () => {
     setShowArea("input");
