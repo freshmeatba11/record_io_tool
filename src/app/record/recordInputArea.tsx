@@ -40,6 +40,14 @@ const inputList = [
   },
 ];
 
+const unitLabelFormatter = {
+  water: (v: string) => `${v} / ml`,
+  food: (v: string) => `${v} / g`,
+  urine: (v: string) => `${v} / ml`,
+  stool: () => ``,
+  other: (v: string) => `${v}`,
+};
+
 type Props = {
   control: any;
   onSubmit: any;
@@ -72,7 +80,12 @@ const RecordInputArea = ({ control, onSubmit, isValid, type }: Props) => {
                 control,
                 required: item.required,
                 id: item.id,
-                label: item.label,
+                label:
+                  item.id === "amount"
+                    ? unitLabelFormatter[
+                        type as keyof typeof unitLabelFormatter
+                      ](item.label)
+                    : item.label,
                 isOnlyNumber: item.isOnlyNumber,
                 maxLength: item.maxLength,
                 multiline: item.multiline,

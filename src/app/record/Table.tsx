@@ -3,7 +3,7 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
-  GridRowId,
+  GridRowParams,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarExport,
@@ -80,6 +80,17 @@ const ConfirmButtonWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+const ConfirmInfoWrapper = styled.div`
+  color: var(--record-header-info-color);
+  & > p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    display: flex;
+    justify-content: center;
+  }
+`;
 
 const typeFormatter = typeConfig;
 const amountFormatter = {
@@ -131,17 +142,29 @@ const Table = ({ rows }: Props) => {
   const fileActions = useFilesActions();
 
   const handleDeleteWithConfirm = React.useCallback(
-    (id: GridRowId) => () => {
+    (params: GridRowParams) => () => {
       globalActions?.setRootModalConfig({
         title: "確定要刪除紀錄嗎?",
         subtitle: "＊此動作無法回復",
         modalContent: (
           <ConfirmButtonWrapper>
+            <ConfirmInfoWrapper>
+              <p>{dayjs(params.row.date).format("YYYY-MM-DD")}</p>
+              <p>{dayjs(params.row.date).format("HH:mm")}</p>
+              <p>
+                {typeFormatter[params.row.type as keyof typeof typeFormatter]}
+                {` / `}
+                {amountFormatter[
+                  params.row.type as keyof typeof amountFormatter
+                ](params.row.amount)}
+              </p>
+            </ConfirmInfoWrapper>
+
             <Button
               {...{
                 onClick: () => {
                   globalActions?.setLoading(true);
-                  fileActions?.deleteRecord(id.toString());
+                  fileActions?.deleteRecord(params.id.toString());
                   setTimeout(() => {
                     toast.success("刪除成功！");
                     globalActions?.setRootModalOpen(false);
@@ -225,7 +248,7 @@ const Table = ({ rows }: Props) => {
           <GridActionsCellItem
             key={params.id}
             icon={<DeleteIcon />}
-            onClick={handleDeleteWithConfirm(params.id)}
+            onClick={handleDeleteWithConfirm(params)}
             label="Delete"
           />,
         ],
