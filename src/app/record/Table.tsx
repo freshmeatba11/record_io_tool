@@ -4,8 +4,13 @@ import {
   GridActionsCellItem,
   GridColDef,
   GridRowId,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import { Abhaya_Libre } from "next/font/google";
 import React from "react";
 import { toast } from "sonner";
 import styled from "styled-components";
@@ -14,6 +19,11 @@ import typeConfig from "@/config/type.json";
 import { useFilesActions, useGlobalActions } from "@/stores/useBoundStore";
 
 import Button from "@/components/button/button";
+
+const abhayaLibre = Abhaya_Libre({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+});
 
 const TableWrapper = styled.div`
   width: 100%;
@@ -79,7 +89,40 @@ const amountFormatter = {
   stool: (v: number) => `-`,
   other: (v: number) => `${v}`,
 };
-
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer
+      sx={{
+        padding: "4px 4px 4px",
+        justifyContent: { xs: "space-evenly", sm: "flex-start" },
+        ".MuiButtonBase-root": {
+          fontFamily: `${abhayaLibre.style.fontFamily}`,
+          letterSpacing: "1px",
+          color: "white",
+          background: "var(--table-toolbar-background-color)",
+          borderRadius: "16px",
+          padding: "4px 10px",
+          ".MuiButton-startIcon": {
+            marginRight: "2px",
+          },
+          "&:hover": {
+            backgroundColor: "var(--table-toolbar-hover-background-color)",
+          },
+        },
+      }}
+    >
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarExport
+        printOptions={{ disableToolbarButton: true }}
+        csvOptions={{
+          fileName: dayjs().format("[io_record_export_]YYYYMMDD"),
+          utf8WithBom: true,
+        }}
+      />
+    </GridToolbarContainer>
+  );
+}
 type Props = {
   rows: any[];
 };
@@ -132,7 +175,10 @@ const Table = ({ rows }: Props) => {
         field: "date",
         headerName: "日期",
         valueGetter: ({ row }) => {
-          return dayjs(Number(row.date)).format("YYYY/MM/DD");
+          return dayjs(Number(row.date)).format();
+        },
+        valueFormatter: (params) => {
+          return dayjs(params.value).format("YYYY-MM-DD");
         },
         width: 100,
       },
@@ -140,7 +186,10 @@ const Table = ({ rows }: Props) => {
         field: "time",
         headerName: "時間",
         valueGetter: ({ row }) => {
-          return dayjs(Number(row.date)).format("HH:mm");
+          return dayjs(Number(row.date)).format();
+        },
+        valueFormatter: (params) => {
+          return dayjs(params.value).format("HH:mm");
         },
         width: 80,
       },
@@ -197,7 +246,7 @@ const Table = ({ rows }: Props) => {
         // loading={isLoading}
         rows={rows}
         columns={columns}
-        disableColumnMenu={false}
+        disableColumnMenu={true}
         disableRowSelectionOnClick
         // autoPageSize
         getRowClassName={(params) =>
@@ -206,6 +255,17 @@ const Table = ({ rows }: Props) => {
         getRowHeight={() => "auto"}
         columnHeaderHeight={35}
         rowSpacingType="border"
+        slots={{ toolbar: CustomToolbar }}
+        slotProps={{
+          filterPanel: {
+            sx: {
+              width: "calc(100svw - 18px)",
+              ".MuiDataGrid-filterForm": {
+                flexWrap: "wrap",
+              },
+            },
+          },
+        }}
       />
     </TableWrapper>
   );

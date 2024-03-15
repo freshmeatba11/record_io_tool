@@ -40,6 +40,7 @@ const RecordPage = () => {
         router.replace("/");
       }, 1000);
     }
+    // eslint-disable-next-line
   }, [currentFile, globalActions]);
 
   if (!currentFile || !rows) return null;
