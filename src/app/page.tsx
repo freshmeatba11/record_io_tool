@@ -1,7 +1,7 @@
 "use client";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -83,12 +83,18 @@ export default function Home() {
     reset({ checkInTime: dayjs() });
   };
 
+  useEffect(() => {
+    if (files) {
+      files.length === 0 && setShowArea("input");
+    }
+  }, [files]);
+
   return (
     <Wrapper>
       <FrontTitle title1="IO" title2="Recording" subTitle="輸出入量紀錄" />
       {files && (
         <>
-          {files.length === 0 || showArea === "input" ? (
+          {showArea === "input" && (
             <LoginInputArea
               {...{
                 control,
@@ -98,12 +104,11 @@ export default function Home() {
                 hasOldFile: !!files.length,
               }}
             />
-          ) : null}
+          )}
 
-          {(files.length > 0 || showArea === "oldFile") &&
-          showArea !== "input" ? (
+          {(showArea === "oldFile" || showArea === "") && (
             <OldFileList {...{ list: files, setShowArea }} />
-          ) : null}
+          )}
         </>
       )}
 
