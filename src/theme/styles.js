@@ -15,18 +15,7 @@ const Styles = {
 
     position: relative;
     overflow-y: scroll;
-
-    /* @media ${Metrics.media.desk} {
-        max-width: 1192px;
-        height: calc(100svh - 104px);
-        margin: 104px auto 0 auto;
-      } */
   `,
-  //   button: () => styled.button`
-  //     background-color: var(--header-button-color);
-  //     border: none;
-  //     cursor: pointer;
-  //   `,
   font: {
     abhayaLibre: abhayaLibre.style.fontFamily,
     inter: inter.style.fontFamily,

@@ -266,12 +266,10 @@ const Table = ({ rows }: Props) => {
   return (
     <TableWrapper>
       <DataGrid
-        // loading={isLoading}
         rows={rows}
         columns={columns}
         disableColumnMenu={true}
         disableRowSelectionOnClick
-        // autoPageSize
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
