@@ -13,8 +13,24 @@ import RootModal from "@/components/modal/rootModal";
 const inter = Inter({ weight: ["100", "400", "500"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Record I/O Tool",
-  description: "攝入/輸出記錄表",
+  metadataBase: new URL("https://io-recording.vercel.app/"),
+  title: "IO Recording",
+  description: "攝入/輸出記錄表：提供相對便利的工具，降低進行紀錄工作的負擔～",
+  applicationName: "IO Recording",
+  authors: [{ name: "meatba11", url: "https://github.com/freshmeatba11" }],
+  openGraph: {
+    type: "website",
+    url: "https://io-recording.vercel.app/",
+    title: "IO Recording",
+    description:
+      "攝入/輸出記錄表：提供相對便利的工具，降低進行紀錄工作的負擔～",
+    siteName: "IO Recording",
+    images: [
+      {
+        url: "/og-image.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
