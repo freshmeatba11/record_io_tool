@@ -59,9 +59,11 @@ const RecordSubModal = ({ open, setOpen, type, closeParentModal }: Props) => {
     };
 
     fileActions?.addNewRecord(newRecord);
-    globalActions?.setLoading(false);
-    closeAllModal();
-    toast.success("新增成功");
+    setTimeout(() => {
+      toast.success("新增成功");
+      closeAllModal();
+      globalActions?.setLoading(false);
+    });
   });
 
   const title = `輸入${typeConfig[type as keyof typeof typeConfig]}資訊`;

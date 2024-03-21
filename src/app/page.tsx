@@ -1,7 +1,7 @@
 "use client";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -21,11 +21,12 @@ const Wrapper = Styles.main();
 const SvgWrapper = styled.div`
   max-width: 390px;
   max-height: 318px;
+  width: 100%;
 
   position: absolute;
   bottom: 0;
-  right: 0;
-  left: 0;
+  left: 50%;
+  translate: -50% 0;
 
   z-index: -1;
   svg {
@@ -71,8 +72,10 @@ export default function Home() {
 
     fileActions?.addNewFile(newFile);
     fileActions?.changeCurrentFile(id);
-    globalActions?.setLoading(false);
-    router.push("/record");
+    setTimeout(() => {
+      router.push("/record");
+      globalActions?.setLoading(false);
+    });
   });
 
   const handleClickBackToList = () => {
@@ -80,12 +83,18 @@ export default function Home() {
     reset({ checkInTime: dayjs() });
   };
 
+  useEffect(() => {
+    if (files) {
+      files.length === 0 && setShowArea("input");
+    }
+  }, [files]);
+
   return (
     <Wrapper>
       <FrontTitle title1="IO" title2="Recording" subTitle="輸出入量紀錄" />
       {files && (
         <>
-          {files.length === 0 || showArea === "input" ? (
+          {showArea === "input" && (
             <LoginInputArea
               {...{
                 control,
@@ -95,12 +104,11 @@ export default function Home() {
                 hasOldFile: !!files.length,
               }}
             />
-          ) : null}
+          )}
 
-          {(files.length > 0 || showArea === "oldFile") &&
-          showArea !== "input" ? (
+          {(showArea === "oldFile" || showArea === "") && (
             <OldFileList {...{ list: files, setShowArea }} />
-          ) : null}
+          )}
         </>
       )}
 

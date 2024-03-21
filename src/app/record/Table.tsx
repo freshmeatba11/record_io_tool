@@ -3,9 +3,14 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
-  GridRowId,
+  GridRowParams,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import { Abhaya_Libre } from "next/font/google";
 import React from "react";
 import { toast } from "sonner";
 import styled from "styled-components";
@@ -14,6 +19,11 @@ import typeConfig from "@/config/type.json";
 import { useFilesActions, useGlobalActions } from "@/stores/useBoundStore";
 
 import Button from "@/components/button/button";
+
+const abhayaLibre = Abhaya_Libre({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+});
 
 const TableWrapper = styled.div`
   width: 100%;
@@ -70,6 +80,17 @@ const ConfirmButtonWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+const ConfirmInfoWrapper = styled.div`
+  color: var(--record-header-info-color);
+  & > p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    display: flex;
+    justify-content: center;
+  }
+`;
 
 const typeFormatter = typeConfig;
 const amountFormatter = {
@@ -79,7 +100,40 @@ const amountFormatter = {
   stool: (v: number) => `-`,
   other: (v: number) => `${v}`,
 };
-
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer
+      sx={{
+        padding: "4px 4px 4px",
+        justifyContent: { xs: "space-evenly", sm: "flex-start" },
+        ".MuiButtonBase-root": {
+          fontFamily: `${abhayaLibre.style.fontFamily}`,
+          letterSpacing: "1px",
+          color: "white",
+          background: "var(--table-toolbar-background-color)",
+          borderRadius: "16px",
+          padding: "4px 10px",
+          ".MuiButton-startIcon": {
+            marginRight: "2px",
+          },
+          "&:hover": {
+            backgroundColor: "var(--table-toolbar-hover-background-color)",
+          },
+        },
+      }}
+    >
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarExport
+        printOptions={{ disableToolbarButton: true }}
+        csvOptions={{
+          fileName: dayjs().format("[io_record_export_]YYYYMMDD"),
+          utf8WithBom: true,
+        }}
+      />
+    </GridToolbarContainer>
+  );
+}
 type Props = {
   rows: any[];
 };
@@ -88,21 +142,34 @@ const Table = ({ rows }: Props) => {
   const fileActions = useFilesActions();
 
   const handleDeleteWithConfirm = React.useCallback(
-    (id: GridRowId) => () => {
+    (params: GridRowParams) => () => {
       globalActions?.setRootModalConfig({
         title: "確定要刪除紀錄嗎?",
         subtitle: "＊此動作無法回復",
         modalContent: (
           <ConfirmButtonWrapper>
+            <ConfirmInfoWrapper>
+              <p>{dayjs(params.row.date).format("YYYY-MM-DD")}</p>
+              <p>{dayjs(params.row.date).format("HH:mm")}</p>
+              <p>
+                {typeFormatter[params.row.type as keyof typeof typeFormatter]}
+                {` / `}
+                {amountFormatter[
+                  params.row.type as keyof typeof amountFormatter
+                ](params.row.amount)}
+              </p>
+            </ConfirmInfoWrapper>
+
             <Button
               {...{
                 onClick: () => {
                   globalActions?.setLoading(true);
-                  fileActions?.deleteRecord(id.toString());
-                  globalActions?.setLoading(false);
-
-                  toast.success("刪除成功！");
-                  globalActions?.setRootModalOpen(false);
+                  fileActions?.deleteRecord(params.id.toString());
+                  setTimeout(() => {
+                    toast.success("刪除成功！");
+                    globalActions?.setRootModalOpen(false);
+                    globalActions?.setLoading(false);
+                  });
                 },
                 disabled: false,
                 text: "刪除",
@@ -131,7 +198,10 @@ const Table = ({ rows }: Props) => {
         field: "date",
         headerName: "日期",
         valueGetter: ({ row }) => {
-          return dayjs(Number(row.date)).format("YYYY/MM/DD");
+          return dayjs(Number(row.date)).format();
+        },
+        valueFormatter: (params) => {
+          return dayjs(params.value).format("YYYY-MM-DD");
         },
         width: 100,
       },
@@ -139,7 +209,10 @@ const Table = ({ rows }: Props) => {
         field: "time",
         headerName: "時間",
         valueGetter: ({ row }) => {
-          return dayjs(Number(row.date)).format("HH:mm");
+          return dayjs(Number(row.date)).format();
+        },
+        valueFormatter: (params) => {
+          return dayjs(params.value).format("HH:mm");
         },
         width: 80,
       },
@@ -175,7 +248,7 @@ const Table = ({ rows }: Props) => {
           <GridActionsCellItem
             key={params.id}
             icon={<DeleteIcon />}
-            onClick={handleDeleteWithConfirm(params.id)}
+            onClick={handleDeleteWithConfirm(params)}
             label="Delete"
           />,
         ],
@@ -193,19 +266,27 @@ const Table = ({ rows }: Props) => {
   return (
     <TableWrapper>
       <DataGrid
-        // loading={isLoading}
         rows={rows}
         columns={columns}
-        disableColumnMenu={false}
+        disableColumnMenu={true}
         disableRowSelectionOnClick
-        // autoPageSize
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
         getRowHeight={() => "auto"}
         columnHeaderHeight={35}
         rowSpacingType="border"
-        // todo 處理客製tool tip
+        slots={{ toolbar: CustomToolbar }}
+        slotProps={{
+          filterPanel: {
+            sx: {
+              width: "calc(100svw - 18px)",
+              ".MuiDataGrid-filterForm": {
+                flexWrap: "wrap",
+              },
+            },
+          },
+        }}
       />
     </TableWrapper>
   );
