@@ -60,9 +60,11 @@ const InfoModal = ({ children }: Props) => {
     };
 
     fileActions?.editFile(editedFile);
-    globalActions?.setLoading(false);
-    toast.success("修改成功！");
-    setOpen(false);
+    setTimeout(() => {
+      toast.success("修改成功！");
+      setOpen(false);
+      globalActions?.setLoading(false);
+    });
   });
 
   const handleDeleteWithConfirm = () => {
@@ -76,11 +78,13 @@ const InfoModal = ({ children }: Props) => {
               onClick: () => {
                 globalActions?.setLoading(true);
                 fileActions?.deleteFile();
-                globalActions?.setLoading(false);
 
-                toast.success("刪除成功！");
-                globalActions?.setRootModalOpen(false);
-                router.push("/");
+                setTimeout(() => {
+                  toast.success("刪除成功！");
+                  globalActions?.setRootModalOpen(false);
+                  router.push("/");
+                  globalActions?.setLoading(false);
+                });
               },
               disabled: false,
               text: "刪除",

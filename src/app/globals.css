@@ -9,6 +9,8 @@
   --brown-02: #8c4b1c;
   --brown-03: #8c4b1c66;
   --brown-04: #ae8c42;
+  --brown-05: #8d4b1ca3;
+  --brown-06: #8d4b1c72;
   --brown-50: #faece1;
   --brown-100: #f4dbc3;
   --brown-200: #eac090;
@@ -49,6 +51,8 @@
   --table-background-color-even: var(--brown-200);
   --table-text-color-odd: var(--brown-800);
   --table-background-color-odd: var(--brown-100);
+  --table-toolbar-background-color: var(--brown-05);
+  --table-toolbar-hover-background-color: var(--brown-06);
 
   --modal-background: var(--white-03, #f4f4f5);
   --modal-title-color: var(--brown-900, #653f1f);
