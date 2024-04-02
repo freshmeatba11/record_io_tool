@@ -43,6 +43,7 @@ export default function Home() {
   const globalActions = useGlobalActions();
 
   const router = useRouter();
+  router.prefetch("/record");
 
   const {
     control,
