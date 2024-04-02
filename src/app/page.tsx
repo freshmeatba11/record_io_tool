@@ -24,7 +24,7 @@ const SvgWrapper = styled.div`
   width: 100%;
 
   position: absolute;
-  bottom: 0;
+  bottom: 4px;
   left: 50%;
   translate: -50% 0;
 
