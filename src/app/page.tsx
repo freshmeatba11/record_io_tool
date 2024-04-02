@@ -84,6 +84,11 @@ export default function Home() {
   };
 
   useEffect(() => {
+    router.prefetch("/record");
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     if (files) {
       files.length === 0 && setShowArea("input");
     }
