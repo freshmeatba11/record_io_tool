@@ -118,10 +118,12 @@
 
 - next: 14.0.4
 - zustand: 4.4.7
+- react-hook-form: 7.49.3,
 - styled-components: 6.1.3
 - dayjs: 1.11.10
 - @mui/material: 5.15.2
 - @mui/x-data-grid: 6.18.6
+- sonner: 1.4.0,
 
 <h2 align='center' id="聯絡方式">聯絡方式<a href="#menu">🔝</a></h2>
 
