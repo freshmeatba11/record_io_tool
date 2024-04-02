@@ -43,7 +43,6 @@ export default function Home() {
   const globalActions = useGlobalActions();
 
   const router = useRouter();
-  router.prefetch("/record");
 
   const {
     control,
@@ -83,6 +82,11 @@ export default function Home() {
     setShowArea("oldFile");
     reset({ checkInTime: dayjs() });
   };
+
+  useEffect(() => {
+    router.prefetch("/record");
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (files) {
